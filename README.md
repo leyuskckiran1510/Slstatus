@@ -11,3 +11,7 @@ suckless status monitor with minimal setup.
 ## Requirements
 [Nerd Fonts](https://www.nerdfonts.com/font-downloads) for icons.<br>
 Font I used Meslo Nerd Font [Download!](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip).
+
+
+## ScreenShot
+<p align="center"> <img src="https://github.com/leyuskckiran1510/Slstatus/raw/main/Screenshot%20from%202022-08-14%2016-56-43.png" alt="Slstatus" /> </p>
