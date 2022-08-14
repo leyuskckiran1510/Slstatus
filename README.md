@@ -1,1 +1,2 @@
-# Slstatus
+# slstatus
+suckless status monitor
