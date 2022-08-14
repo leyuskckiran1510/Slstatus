@@ -9,5 +9,5 @@ suckless status monitor with minimal setup.
 
 
 ## Requirements
-[Nerd Fonts](https://www.nerdfonts.com/font-downloads) for icons.
-Font I used [Meslo Nerd Font](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip).
+[Nerd Fonts](https://www.nerdfonts.com/font-downloads) for icons.<br>
+Font I used Meslo Nerd Font [Download!](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip).
