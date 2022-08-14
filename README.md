@@ -8,4 +8,4 @@ suckless status monitor with minimal setup.
 
 
 ## Requirements
-(Nerd Fonst)[!https://www.nerdfonts.com/font-downloads]
+[Nerd Fonst][https://www.nerdfonts.com/font-downloads]
