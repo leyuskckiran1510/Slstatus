@@ -21,11 +21,12 @@
 	wifi_perc(const char *interface)
 	{
 		int cur;
+		static int sent=0,sent2=0;
 		size_t i;
 		char *p, *datastart;
 		char path[PATH_MAX];
 		char status[5];
-		FILE *fp;
+		FILE *fp,*fpp;
 
 		if (esnprintf(path, sizeof(path), "/sys/class/net/%s/operstate",
 		              interface) < 0) {
@@ -38,7 +39,24 @@
 		p = fgets(status, 5, fp);
 		fclose(fp);
 		if (!p || strcmp(status, "up\n") != 0) {
-			return NULL;
+			if(!sent){
+			fpp = popen("dunstify 'Wifi Turned Off' 'Connection lost' -u normal -t 1500 -r 15987 -i \
+				~/Suckless_Addons/Slstatus/icons/wifi-down.png", "r");
+			fclose(fpp);
+			sent=1;
+			sent2=0;
+		}
+			return "";
+		}
+		else{
+			if(!sent2){
+			fpp = popen("dunstify 'Wifi Turned ON' 'Connection Back' -u normal -t 1500 -r 15987 -i \
+				~/Suckless_Addons/Slstatus/icons/wifi-up.png", "r");
+			fclose(fpp);
+			sent2=1;
+			sent=0;
+		}
+
 		}
 
 		if (!(fp = fopen("/proc/net/wireless", "r"))) {
@@ -62,6 +80,8 @@
 		datastart = (datastart+(strlen(interface)+1));
 		sscanf(datastart + 1, " %*d   %d  %*d  %*d\t\t  %*d\t   "
 		       "%*d\t\t%*d\t\t %*d\t  %*d\t\t %*d", &cur);
+		
+
 
 		/* 70 is the max of /proc/net/wireless */
 		return bprintf("%d", (int)((float)cur / 70 * 100));
@@ -78,27 +98,27 @@
 		wreq.u.essid.length = IW_ESSID_MAX_SIZE+1;
 		if (esnprintf(wreq.ifr_name, sizeof(wreq.ifr_name), "%s",
 		              interface) < 0) {
-			return NULL;
+			return "睊 ";
 		}
 
 		if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
 			warn("socket 'AF_INET':");
-			return NULL;
+			return "睊 ";
 		}
 		wreq.u.essid.pointer = id;
 		if (ioctl(sockfd,SIOCGIWESSID, &wreq) < 0) {
 			warn("ioctl 'SIOCGIWESSID':");
 			close(sockfd);
-			return NULL;
+			return "睊 ";
 		}
 
 		close(sockfd);
 
 		if (!strcmp(id, "")) {
-			return NULL;
+			return "睊 ";
 		}
 
-		return id;
+		return " 直 ";
 	}
 #elif defined(__OpenBSD__)
 	#include <net/if.h>

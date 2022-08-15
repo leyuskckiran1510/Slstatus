@@ -47,6 +47,8 @@
 	battery_state(const char *bat)
 	{	
 		const char *perc = battery_perc(bat);
+		static int sent=0,bck=0,sent2=0,sent3=0;
+		FILE *fp;
 		int num_perc = atoi(perc);
 		static struct {
 			char *sym;
@@ -70,6 +72,25 @@
 			{ "Discharging", (num_perc>20)?(plt[num_perc/11].sym):"ﴐ " },
 			{"Full",""},
 		};
+		if (num_perc<20 && sent==0){
+			fp = popen("dunstify 'Low Battery' 'Charge Now' -u critical -t 1500 -r 369987 \
+				-i ~/Suckless_Addons/Slstatus/icons/battery-low.png", "r");
+			sent=1;
+			bck = num_perc;
+			fclose(fp);
+		}
+		else if(num_perc<bck){
+			sent=0;
+			sent3=0;
+
+		}
+		if (num_perc==100 && sent3==0){
+			fp = popen("dunstify 'Battery FULL'  -u low -t 1500 -r 369987 \
+				-i ~/Suckless_Addons/Slstatus/icons/battery-full.png", "r");
+			sent3=1;
+			bck = num_perc;
+			fclose(fp);
+		}
 		count+=2;
 		size_t i;
 		char path[PATH_MAX], state[12];
@@ -86,6 +107,12 @@
 			if (!strcmp(map[i].state, state)) {
 				break;
 			}
+		}
+		if(i == LEN(map) &&!sent2){
+			fp = popen("dunstify 'Battery Error' 'Check Now' -u critical -t 5500 -r 369987 \
+				-i ~/Suckless_Addons/Slstatus/icons/battery-error.png", "r");
+			sent2=1;
+			fclose(fp);
 		}
 		return (i == LEN(map)) ? "" : map[i].symbol;
 	}

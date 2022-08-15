@@ -1,13 +1,14 @@
 /* See LICENSE file for copyright and license details. */
 
 /* interval between updates (in ms) */
-const unsigned int interval = 1000;
+const unsigned int interval = 500;
 
 /* text to show if no value can be retrieved */
 static const char unknown_str[] = "n/a";
 
 /* maximum output string length */
 #define MAXLEN 2048
+
 
 /*
  * function            description                     argument (example)
@@ -72,6 +73,6 @@ static const struct arg args[] = {
 	{battery_state, "[%s ","BAT0"},
 	{battery_perc, "%s%%] |","BAT0"},
 	{ datetime, "[%s] |",   "%x |%I:%M" },
-	{ wifi_perc, "%s  ", "wlp1s0"},
-	//{ wifi_essid, "%s", "wlp1s0"},
+	{ wifi_perc, "%s", "wlp1s0"},
+	{ wifi_essid, "%s", "wlp1s0"},
 };
