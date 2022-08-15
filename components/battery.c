@@ -62,12 +62,12 @@
 		{""},
 		};
 		static int count =0;
-		 struct {
+		struct {
 			char *state;
 			char *symbol;
 		} map[] = {
 			{ "Charging",    plt[count%9].sym },
-			{ "Discharging", plt[num_perc/11].sym },
+			{ "Discharging", (num_perc>20)?(plt[num_perc/11].sym):"ﴐ " },
 			{"Full",""},
 		};
 		count+=2;
