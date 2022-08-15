@@ -61,6 +61,7 @@ install: all
 	mkdir -p "$(DESTDIR)$(MANPREFIX)/man1"
 	sudo cp -f slstatus.1 "$(DESTDIR)$(MANPREFIX)/man1"
 	sudo chmod 777 "$(DESTDIR)$(MANPREFIX)/man1/slstatus.1"
+	sudo chmod 777 volnotfy
 	sudo killall slstatus
 	slstatus &
 

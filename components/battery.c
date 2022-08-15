@@ -47,7 +47,7 @@
 	battery_state(const char *bat)
 	{	
 		const char *perc = battery_perc(bat);
-		static int sent=0,bck=0,sent2=0,sent3=0;
+		static int sent=0,bck=0,sent2=0,sent3=0,chrg=0,count =0;
 		FILE *fp;
 		int num_perc = atoi(perc);
 		static struct {
@@ -63,7 +63,6 @@
 		{""},
 		{""},
 		};
-		static int count =0;
 		struct {
 			char *state;
 			char *symbol;
@@ -91,18 +90,28 @@
 			bck = num_perc;
 			fclose(fp);
 		}
+
 		count+=2;
 		size_t i;
 		char path[PATH_MAX], state[12];
 
 		if (esnprintf(path, sizeof(path),
 		              "/sys/class/power_supply/%s/status", bat) < 0) {
-			return NULL;
+			return "@@@";
 		}
 		if (pscanf(path, "%12s", state) != 1) {
-			return NULL;
+			return "--+--";
 		}
-
+		if ((!strcmp("Charging",state)) && (chrg==0)){
+			fp = popen("dunstify 'Charging'  -u low -t 1500 -r 369987 \
+				-i ~/Suckless_Addons/Slstatus/icons/battery-full.png", "r");
+			chrg=1;
+			
+			fclose(fp);
+		}
+		else if(strcmp("Charging",state)){;
+			chrg=0;
+		}
 		for (i = 0; i < LEN(map); i++) {
 			if (!strcmp(map[i].state, state)) {
 				break;
